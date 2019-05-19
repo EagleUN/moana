@@ -1,0 +1,65 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "moana"
+tags:
+  - name: "home-feed"
+    description: "Home feed functions"
+  - name: "profile-feed"
+    description: "Profile feed functions"
+paths:
+  /feed/getHomeFeed/{userId}:
+    get:
+      summary: "Retrieves a list of posts that belong to the home feed"
+      parameters:
+        - in: path
+          name: userId
+          type: string
+          required: true
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200: 
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Post"
+        500:
+          description: "Internal Server Error while fetching posts"
+      tags:
+        - "home-feed"
+  /feed/getProfileFeed/{userId}:
+    get:
+      summary: "Retrieves a list of posts that belong to the profile feed"
+      parameters:
+        - in: path
+          name: userId
+          type: string
+          required: true
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200: 
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Post"
+        500:
+          description: "Internal Server Error while fetching posts"
+      tags:
+        - "home-feed"
+definitions:
+  Post:
+    type: object
+    properties:
+      id:
+        type: string
+      createdAt:
+        type: string
+        format: date-time
+      idCreator:
+        type: string
+      content:
+        type: string

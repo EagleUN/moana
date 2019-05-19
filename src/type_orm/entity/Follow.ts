@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Follow {
+export class Follows {
   @PrimaryGeneratedColumn()
   public id: number | undefined;
 

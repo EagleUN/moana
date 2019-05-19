@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express-serve-static-core";
 import { check } from "express-validator/check";
 import validation from "../../utils/Validator";
-import GetHomeFeed from "../../use_cases/GetFeed";
+import GetFeed from "../../use_cases/GetFeed";
 
-const getHomeFeedController = [
+const getProfileFeedController = [
   check("userId")
     .exists()
     .isString(),
@@ -11,7 +11,7 @@ const getHomeFeedController = [
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { userId } = req.params;
-      const response = await GetHomeFeed.getFeed(userId, true);
+      const response = await GetFeed.getFeed(userId, false);
       res.status(200).json(response);
     } catch (error) {
       next(error);
@@ -19,4 +19,4 @@ const getHomeFeedController = [
   },
 ];
 
-export default getHomeFeedController;
+export default getProfileFeedController;

@@ -5,10 +5,11 @@ import GetSharedPostsForUser from "./GetSharedPostsForUser";
 import { Post } from "../type_orm/entity/Post";
 import { Follows } from "../type_orm/entity/Follow";
 
-const log = logger("Use Case: Get Home Feed");
+const log = logger("Use Case: Get Feed");
 
-const getHomeFeed = async(userId: string): Promise<Post[]> => {
-  log.info(`Getting home feed for user with id ${userId}`);
+const getFeed = async(userId: string, isHomeFeed: boolean): Promise<Post[]> => {
+  const messageAux = isHomeFeed ? "home" : "profile"; 
+  log.info(`Getting ${messageAux} feed for user with id ${userId}`);
   let homeFeed: Post[] = [];
 
   const followedUsers = await followsQueries.findFollows(userId);
@@ -20,8 +21,8 @@ const getHomeFeed = async(userId: string): Promise<Post[]> => {
 
   homeFeed = homeFeed.concat(myPosts);
   homeFeed = homeFeed.concat(mySharedPosts);
-  homeFeed = homeFeed.concat(followedUsersPosts);
-  homeFeed = homeFeed.concat(followedUsersSharedPosts);
+  if (isHomeFeed) homeFeed = homeFeed.concat(followedUsersPosts);
+  if (isHomeFeed) homeFeed = homeFeed.concat(followedUsersSharedPosts);
   
   return homeFeed;
 };
@@ -63,5 +64,5 @@ const getFollowedUsersSharedPosts = async (peopleFollowedByUser: Follows[]): Pro
 }
 
 export default {
-  getHomeFeed,
+  getFeed,
 };

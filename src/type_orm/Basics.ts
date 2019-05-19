@@ -1,7 +1,9 @@
 import "reflect-metadata";
 import { createConnection } from "typeorm";
 import config from "../utils/Config";
-import { Follow } from "./entity/Follow";
+import { Follows } from "./entity/Follow";
+import { Post } from "./entity/Post";
+import { Share } from "./entity/Share";
 
 export const connectionPromise = createConnection({
   type: config.get("DB_TYPE"),
@@ -10,7 +12,7 @@ export const connectionPromise = createConnection({
   username: config.get("DB_USERNAME"),
   password: config.get("DB_PASSWORD"),
   database: config.get("DB_DATABASE"),
-  entities: [Follow],
+  entities: [Follows, Post, Share],
   synchronize: true,
   logging: false,
 });

@@ -2,7 +2,7 @@ import { Connection } from "typeorm";
 import { connectionPromise } from "../type_orm/Basics";
 import { Post } from "../type_orm/entity/Post";
 
-const findPostsByCreatorId = async(idCreator: string): Promise<Post[] | undefined> => {
+const findPostsByCreatorId = async(idCreator: string): Promise<Post[]> => {
   const connection: Connection = await connectionPromise;
   const result = await connection.getRepository(Post)
                                  .createQueryBuilder("post")
@@ -13,11 +13,11 @@ const findPostsByCreatorId = async(idCreator: string): Promise<Post[] | undefine
 
 const findPostById = async(postId: string): Promise<Post | undefined> => {
   const connection: Connection = await connectionPromise;
-  const results = await connection.getRepository(Post)
+  const result = await connection.getRepository(Post)
                                   .createQueryBuilder("post")
                                   .where("post.id = :id", { id: postId })
                                   .getOne();
-  return results;
+  return result;
 }
 
 export default {

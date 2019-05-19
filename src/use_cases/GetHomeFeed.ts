@@ -1,44 +1,65 @@
 import logger from "../utils/Logger";
-import queries from "../queries/Follows";
+import followsQueries from "../queries/Follows";
 import GetPostsForUser from "./GetPostsForUser";
+import GetSharedPostsForUser from "./GetSharedPostsForUser";
 import { Post } from "../type_orm/entity/Post";
+import { Follows } from "../type_orm/entity/Follow";
 
 const log = logger("Use Case: Get Home Feed");
 
 const getHomeFeed = async(userId: string): Promise<Post[] | undefined> => {
   log.info(`Getting home feed for user with id ${userId}`);
   let homeFeed: Post[] = [];
+
+  const followedUsers = await followsQueries.findFollows(userId);
+
   const myPosts = await GetPostsForUser.getPostsForUser(userId);
-  const followedUsersPosts = await getFollowedUsersPosts(userId);
+  const mySharedPosts = await GetSharedPostsForUser.getSharedPostsForUser(userId);  
+  const followedUsersPosts = await getFollowedUsersPosts(followedUsers);
+  const followedUsersSharedPosts = await getFollowedUsersSharedPosts(followedUsers);
 
-  if (myPosts) {
-    myPosts.forEach((post) => { homeFeed.push(post)} );
-  }
+  homeFeed = homeFeed.concat(myPosts);
+  homeFeed = homeFeed.concat(mySharedPosts);
+  homeFeed = homeFeed.concat(followedUsersPosts);
+  homeFeed = homeFeed.concat(followedUsersSharedPosts);
   
-  followedUsersPosts.forEach((post) => { homeFeed.push(post) });
-
   return homeFeed;
 };
 
-const getFollowedUsersPosts = async (userId: string): Promise<Post[]> => {
+const getFollowedUsersPosts = async (peopleFollowedByUser: Follows[]): Promise<Post[]> => {
   let followedUsersPosts: Post[] = [];
-  const peopleFollowedByUser = await queries.findFollows(userId);
-  if (peopleFollowedByUser) {
-    const postsPromises = peopleFollowedByUser.map((follow) => {
-      return GetPostsForUser.getPostsForUser(follow.getFollowingId());
-    });
+  const postsPromises = peopleFollowedByUser.map((follow) => {
+    return GetPostsForUser.getPostsForUser(follow.getFollowingId());
+  });
 
-    const results = await Promise.all(postsPromises);
-    results.forEach((postArray) => {
-      if(postArray && postArray.length > 0) {
-        postArray.forEach((post) => {
-          followedUsersPosts.push(post);
-        })
-      }
-    });
-  }
+  const results = await Promise.all(postsPromises);
+  results.forEach((postArray) => {
+    if (postArray && postArray.length > 0) {
+      postArray.forEach((post) => {
+        followedUsersPosts.push(post);
+      });
+    }
+  });
 
   return followedUsersPosts;
+}
+
+const getFollowedUsersSharedPosts = async (peopleFollowedByUser: Follows[]): Promise<Post[]> => {
+  let followedUsersSharedPosts: Post[] = [];
+  const sharedPostsPromises = peopleFollowedByUser.map((follow) => {
+    return GetSharedPostsForUser.getSharedPostsForUser(follow.getFollowingId());
+  });
+
+  const results = await Promise.all(sharedPostsPromises);
+  results.forEach((postArray) => {
+    if (postArray && postArray.length > 0) {
+      postArray.forEach((post) => {
+        followedUsersSharedPosts.push(post);
+      });
+    }
+  })
+
+  return followedUsersSharedPosts;
 }
 
 export default {

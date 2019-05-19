@@ -4,7 +4,7 @@
   "description": "Microservice to get feed for a user",
   "scripts": {
     "build": "rm -rf ./build && ./node_modules/typescript/bin/tsc",
-    "start": "node ./build/Server.js",
+    "start": "node ./build/src/Server.js",
     "dev": "./node_modules/nodemon/bin/nodemon.js"
   },
   "dependencies": {

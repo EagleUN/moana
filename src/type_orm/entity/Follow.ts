@@ -2,14 +2,14 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Follows {
-  @PrimaryGeneratedColumn()
-  public id: number | undefined;
+  @PrimaryGeneratedColumn("uuid")
+  private id: string | undefined;
 
   @Column()
-  public follower_id: string;
+  private follower_id: string;
 
   @Column()
-  public following_id: string;
+  private following_id: string;
 
   public constructor(
     followerId: string,
@@ -17,5 +17,17 @@ export class Follows {
   ) {
     this.follower_id = followerId;
     this.following_id = followingId;
+  }
+
+  public getId(): string | undefined {
+    return this.id;
+  }
+
+  public getFollowerId(): string {
+    return this.follower_id;
+  }
+
+  public getFollowingId(): string {
+    return this.following_id;
   }
 }

@@ -7,7 +7,7 @@ import { Follows } from "../type_orm/entity/Follow";
 
 const log = logger("Use Case: Get Home Feed");
 
-const getHomeFeed = async(userId: string): Promise<Post[] | undefined> => {
+const getHomeFeed = async(userId: string): Promise<Post[]> => {
   log.info(`Getting home feed for user with id ${userId}`);
   let homeFeed: Post[] = [];
 

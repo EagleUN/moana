@@ -8,7 +8,7 @@ tags:
   - name: "profile-feed"
     description: "Profile feed functions"
 paths:
-  /feed/getHomeFeed/{userId}:
+  /feeds/home/{userId}:
     get:
       summary: "Retrieves a list of posts that belong to the home feed"
       parameters:
@@ -29,7 +29,7 @@ paths:
           description: "Internal Server Error while fetching posts"
       tags:
         - "home-feed"
-  /feed/getProfileFeed/{userId}:
+  /feeds/profile/{userId}:
     get:
       summary: "Retrieves a list of posts that belong to the profile feed"
       parameters:

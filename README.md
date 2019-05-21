@@ -28,7 +28,7 @@ To run migrations run:
 
 **Run moana using nodemon**
 
-Run following commands con console in source of project:
+Run following commands on console in source of project:
 
 * ```npm run dev```
 

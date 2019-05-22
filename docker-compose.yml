@@ -13,5 +13,11 @@ services:
     volumes:
       - 'postgres_data:/var/lib/postgresql'
 
+  moana:
+    build: .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
 volumes:
   postgres_data:

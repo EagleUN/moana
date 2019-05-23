@@ -1,9 +1,6 @@
 FROM node:10.15.0
-
-RUN mkdir -p /moana
-RUN apt-get update
-COPY . /moana
 WORKDIR /moana
+COPY . /moana
 RUN npm install
 RUN npm run build
-RUN npm run start
+CMD ["npm", "run" "start"]

@@ -1,23 +1,24 @@
-version: '2'
+version: '3'
 
 services:
   postgres:
     image: mdillon/postgis:10-alpine
-    container_name: feedMsPostgres
-    ports:
-      - '25432:5432'
     environment:
-      - POSTGRES_USER=feedms
+      - POSTGRES_USER=moana
       - POSTGRES_PASSWORD=yiuPh9eipiu2la9ie8gaifee
-      - POSTGRES_DB=feedms
-    volumes:
-      - 'postgres_data:/var/lib/postgresql'
+    ports:
+    - '25432:5432'
 
   moana:
     build: .
+    container_name: moana
     ports:
       - '3000:3000'
+    environment:
+      - DB_HOST=postgres
+      - DB_USERNAME=moana
+      - DB_PASSWORD=yiuPh9eipiu2la9ie8gaifee
+      - DB_DATABASE=moana
     depends_on:
       - postgres
-volumes:
-  postgres_data:
+    command: bash -c "node build/src/Server.js"

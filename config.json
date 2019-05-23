@@ -2,8 +2,7 @@
   "APP_PORT": "3000",
   "DB_TYPE": "postgres",
   "DB_HOST": "postgres",
-  "DB_PORT": 25432,
-  "DB_USERNAME": "feedms",
+  "DB_USERNAME": "moana",
   "DB_PASSWORD": "yiuPh9eipiu2la9ie8gaifee",
-  "DB_DATABASE": "feedms"
+  "DB_DATABASE": "moana"
 }

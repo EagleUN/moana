@@ -2,9 +2,9 @@
   "type": "postgres",
   "host": "localhost",
   "port": "25432",
-  "username": "feedms",
+  "username": "moana",
   "password": "yiuPh9eipiu2la9ie8gaifee",
-  "database": "feedms",
+  "database": "moana",
   "entities": ["src/type_orm/entity/*.ts"],
   "migrations": ["db/migrations/*.ts"],
   "cli": {

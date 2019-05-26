@@ -2,22 +2,10 @@ version: '2'
 
 services:
   postgres:
-    image: mdillon/postgis:10-alpine
-    container_name: feedMsPostgres
-    ports:
-      - '25432:5432'
+    image: mdillon/postgis:10-alpine       
     environment:
-      - POSTGRES_USER=feedms
+      - POSTGRES_USER=moana
       - POSTGRES_PASSWORD=yiuPh9eipiu2la9ie8gaifee
-      - POSTGRES_DB=feedms
-    volumes:
-      - 'postgres_data:/var/lib/postgresql'
-
-  moana:
-    build: .
+      - POSTGRES_DB=moana
     ports:
-      - '3000:3000'
-    depends_on:
-      - postgres
-volumes:
-  postgres_data:
+      - '25432:5432'  

@@ -5,10 +5,10 @@ export class Follows {
   @PrimaryGeneratedColumn("uuid")
   private id: string | undefined;
 
-  @Column()
+  @Column("uuid")
   private follower_id: string;
 
-  @Column()
+  @Column("uuid")
   private following_id: string;
 
   public constructor(

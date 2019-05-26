@@ -11,7 +11,7 @@ export class Post {
   @Column("uuid")
   private idCreator: string;
 
-  @Column("uuid")
+  @Column()
   private content: string;
 
   public constructor(

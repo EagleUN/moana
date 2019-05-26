@@ -7,6 +7,8 @@ tags:
     description: "Home feed functions"
   - name: "profile-feed"
     description: "Profile feed functions"
+  - name: "health"
+    description: "health check"
 paths:
   /feeds/home/{userId}:
     get:
@@ -49,7 +51,15 @@ paths:
         500:
           description: "Internal Server Error while fetching posts"
       tags:
-        - "home-feed"
+        - "profile-feed"
+  /:
+    get:
+      summary: "Health Check for moana"
+      responses:
+        200:
+          description: "Moana is healthy"
+      tags:
+        - "health"
 definitions:
   Post:
     type: object

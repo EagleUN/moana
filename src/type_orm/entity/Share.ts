@@ -5,10 +5,10 @@ export class Share {
   @PrimaryGeneratedColumn("uuid")
   private id: string | undefined;
 
-  @Column()
+  @Column("uuid")
   private userId: string;
 
-  @Column()
+  @Column("uuid")
   private postId: string;
 
   public constructor(

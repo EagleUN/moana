@@ -8,7 +8,7 @@ export class Post {
   @Column()
   private createdAt: Date;
 
-  @Column()
+  @Column("uuid")
   private idCreator: string;
 
   @Column()

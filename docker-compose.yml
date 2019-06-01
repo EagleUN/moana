@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 
 services:
   postgres:
@@ -7,7 +7,7 @@ services:
       - POSTGRES_USER=moana
       - POSTGRES_PASSWORD=yiuPh9eipiu2la9ie8gaifee
     ports:
-    - '25432:5432'
+    - '5432:5432'
 
   moana:
     build: .
@@ -19,6 +19,8 @@ services:
       - DB_USERNAME=moana
       - DB_PASSWORD=yiuPh9eipiu2la9ie8gaifee
       - DB_DATABASE=moana
-    depends_on:
+      - WAIT_HOSTS= postgres:5432
+    links:
       - postgres
-    command: bash -c "node build/src/Server.js"
+    depends_on:
+      - postgres   

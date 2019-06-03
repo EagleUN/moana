@@ -1,10 +1,34 @@
-import { Post } from "../type_orm/entity/Post";
-import sharesQueries from "../queries/Shares";
-import postQueries from "../queries/Posts";
+//import { Post } from "../type_orm/entity/Post";
+//import postQueries from "../queries/Posts";
+import axios from 'axios';
+import { Share } from '../type_orm/entity/Share';
 
-const getSharedPostsForUser = async(userId: string): Promise<Post[]> => {
-  let sharedPosts: Post[] = [];
-  const shareObjects = await sharesQueries.findSharedPostsByUserId(userId);
+const API_URL = 'http://35.232.95.82:5000/graphql'
+
+const getSharedPostsForUser = async(userId: string): Promise<any> => {
+  let body =  { 
+      query: `
+          query {
+              sharesByUser(userId:"${userId}") {
+                  postId
+                  userId
+              }
+          }
+      `, 
+      variables: {}
+  }
+  let options = {
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  }
+  const data = await axios.post(API_URL,body, options)
+
+  const shareObjects: Share[] = data.data.data.sharesByUser.map((object: any) => {
+    return new Share(object.userId, object.postId);
+  });
+
+  /*let sharedPosts: Post[] = [];
   if (shareObjects) {
     const postsPromises = shareObjects.map((share) => {
       return postQueries.findPostById(share.getPostId());
@@ -17,7 +41,8 @@ const getSharedPostsForUser = async(userId: string): Promise<Post[]> => {
       }
     });
   }
-  return sharedPosts;
+  return sharedPosts;*/
+  return "HOLA";
 }
 
 export default {

@@ -23,24 +23,26 @@ const getSharedPostsForUser = async(userId: string): Promise<Post[]> => {
       }
   }
   const data = await axios.post(API_URL,body, options)
-
-  const shareObjects: Share[] = data.data.data.sharesByUser.map((object: any) => {
-    return new Share(object.userId, object.postId);
-  });
-  let sharedPosts: Post[] = [];
-  if (shareObjects) {
-    const postsPromises = shareObjects.map((share) => {
-      return postQueries.findPostById(share.getPostId());
+  if(data.data.data){
+    const shareObjects: Share[] = data.data.data.sharesByUser.map((object: any) => {
+      return new Share(object.userId, object.postId);
     });
-    
-    const result = await Promise.all(postsPromises);
-    result.forEach((post) => {
-      if (post) {
-        sharedPosts.push(post);
-      }
-    });
+    let sharedPosts: Post[] = [];
+    if (shareObjects) {
+      const postsPromises = shareObjects.map((share) => {
+        return postQueries.findPostById(share.getPostId());
+      });
+      
+      const result = await Promise.all(postsPromises);
+      result.forEach((post) => {
+        if (post) {
+          sharedPosts.push(post);
+        }
+      });
+    }
+    return sharedPosts;
   }
-  return sharedPosts;
+  return [];
 }
 
 export default {

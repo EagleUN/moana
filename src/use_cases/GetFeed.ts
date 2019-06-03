@@ -16,7 +16,7 @@ const getFeed = async(userId: string, isHomeFeed: boolean): Promise<Post[]> => {
 
   //const myPosts = await GetPostsForUser.getPostsForUser(userId);
   const mySharedPosts = await GetSharedPostsForUser.getSharedPostsForUser(userId);  
-
+  console.log(mySharedPosts);
   /*const followedUsersPosts = await getFollowedUsersPosts(followedUsers);
   const followedUsersSharedPosts = await getFollowedUsersSharedPosts(followedUsers);
 

@@ -1,11 +1,11 @@
-//import { Post } from "../type_orm/entity/Post";
-//import postQueries from "../queries/Posts";
+import { Post } from "../type_orm/entity/Post";
+import postQueries from "../queries/Posts";
 import axios from 'axios';
 import { Share } from '../type_orm/entity/Share';
 
-const API_URL = 'http://35.232.95.82:5000/graphql'
+const API_URL = 'http://35.232.95.82:5000/graphql';
 
-const getSharedPostsForUser = async(userId: string): Promise<any> => {
+const getSharedPostsForUser = async(userId: string): Promise<Post[]> => {
   let body =  { 
       query: `
           query {
@@ -27,8 +27,7 @@ const getSharedPostsForUser = async(userId: string): Promise<any> => {
   const shareObjects: Share[] = data.data.data.sharesByUser.map((object: any) => {
     return new Share(object.userId, object.postId);
   });
-
-  /*let sharedPosts: Post[] = [];
+  let sharedPosts: Post[] = [];
   if (shareObjects) {
     const postsPromises = shareObjects.map((share) => {
       return postQueries.findPostById(share.getPostId());
@@ -41,8 +40,7 @@ const getSharedPostsForUser = async(userId: string): Promise<any> => {
       }
     });
   }
-  return sharedPosts;*/
-  return "HOLA";
+  return sharedPosts;
 }
 
 export default {

@@ -39,4 +39,8 @@ export class Post {
   public getContent(): string {
     return this.content;
   }
+
+  public setId(id: string): void {
+    this.id = id;
+  }
 }

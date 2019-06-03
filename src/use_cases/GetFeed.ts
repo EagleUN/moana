@@ -4,10 +4,11 @@ import GetPostsForUser from "./GetPostsForUser";
 import GetSharedPostsForUser from "./GetSharedPostsForUser";
 import { Post } from "../type_orm/entity/Post";
 import { Follows } from "../type_orm/entity/Follow";
+import Users from "../queries/Users";
 
 const log = logger("Use Case: Get Feed");
 
-const getFeed = async(userId: string, isHomeFeed: boolean): Promise<Post[]> => {
+const getFeed = async(userId: string, isHomeFeed: boolean): Promise<any> => {
   const messageAux = isHomeFeed ? "home" : "profile"; 
   log.info(`Getting ${messageAux} feed for user with id ${userId}`);
   let homeFeed: Post[] = [];
@@ -25,7 +26,22 @@ const getFeed = async(userId: string, isHomeFeed: boolean): Promise<Post[]> => {
   if (isHomeFeed) homeFeed = homeFeed.concat(followedUsersPosts);
   if (isHomeFeed) homeFeed = homeFeed.concat(followedUsersSharedPosts);
   
-  return homeFeed;
+  const promises = homeFeed.map((post) => {
+    return Users.getUser(post.getIdCreator());
+  });
+
+  const users = await Promise.all(promises);
+  const homeFeedWithUserName = [];
+  for (let i = 0; i < homeFeed.length; i++) {
+    const postObject = {
+      id: homeFeed[i].getId(),
+      idCreator: users[i].name + " " + users[i].last_name,
+      content: homeFeed[i].getContent(),
+      createdAt: homeFeed[i].getCreatedAt(),
+    }
+    homeFeedWithUserName.push(postObject);
+  }  
+  return homeFeedWithUserName;
 };
 
 const getFollowedUsersPosts = async (peopleFollowedByUser: Follows[]): Promise<Post[]> => {

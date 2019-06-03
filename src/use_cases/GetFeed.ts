@@ -1,9 +1,9 @@
 import logger from "../utils/Logger";
-//import followsQueries from "../queries/Follows";
-//import GetPostsForUser from "./GetPostsForUser";
+import followsQueries from "../queries/Follows";
+import GetPostsForUser from "./GetPostsForUser";
 import GetSharedPostsForUser from "./GetSharedPostsForUser";
 import { Post } from "../type_orm/entity/Post";
-//import { Follows } from "../type_orm/entity/Follow";
+import { Follows } from "../type_orm/entity/Follow";
 
 const log = logger("Use Case: Get Feed");
 
@@ -12,23 +12,23 @@ const getFeed = async(userId: string, isHomeFeed: boolean): Promise<Post[]> => {
   log.info(`Getting ${messageAux} feed for user with id ${userId}`);
   let homeFeed: Post[] = [];
 
-  //const followedUsers = await followsQueries.findFollows(userId);
+  const followedUsers = await followsQueries.findFollows(userId);
 
-  //const myPosts = await GetPostsForUser.getPostsForUser(userId);
+  const myPosts = await GetPostsForUser.getPostsForUser(userId);
   const mySharedPosts = await GetSharedPostsForUser.getSharedPostsForUser(userId);  
-  console.log(mySharedPosts);
-  /*const followedUsersPosts = await getFollowedUsersPosts(followedUsers);
+  
+  const followedUsersPosts = await getFollowedUsersPosts(followedUsers);
   const followedUsersSharedPosts = await getFollowedUsersSharedPosts(followedUsers);
 
   homeFeed = homeFeed.concat(myPosts);
   homeFeed = homeFeed.concat(mySharedPosts);
   if (isHomeFeed) homeFeed = homeFeed.concat(followedUsersPosts);
-  if (isHomeFeed) homeFeed = homeFeed.concat(followedUsersSharedPosts);*/
+  if (isHomeFeed) homeFeed = homeFeed.concat(followedUsersSharedPosts);
   
   return homeFeed;
 };
 
-/*const getFollowedUsersPosts = async (peopleFollowedByUser: Follows[]): Promise<Post[]> => {
+const getFollowedUsersPosts = async (peopleFollowedByUser: Follows[]): Promise<Post[]> => {
   let followedUsersPosts: Post[] = [];
   const postsPromises = peopleFollowedByUser.map((follow) => {
     return GetPostsForUser.getPostsForUser(follow.getFollowingId());
@@ -62,7 +62,7 @@ const getFollowedUsersSharedPosts = async (peopleFollowedByUser: Follows[]): Pro
   })
 
   return followedUsersSharedPosts;
-}*/
+}
 
 export default {
   getFeed,

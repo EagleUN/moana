@@ -3,7 +3,7 @@ import postQueries from "../queries/Posts";
 import axios from 'axios';
 import { Share } from '../type_orm/entity/Share';
 
-const API_URL = 'http://35.232.95.82/graphql';
+const API_URL = 'http://walt:5000/graphql';
 
 const getSharedPostsForUser = async(userId: string): Promise<Post[]> => {
   let body =  { 

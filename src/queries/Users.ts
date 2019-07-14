@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://35.232.95.82/graphql';
+const API_URL = 'http://walt:5000/graphql';
 
 const getUser = async (userId: string): Promise<any> => {
   let body =  { 

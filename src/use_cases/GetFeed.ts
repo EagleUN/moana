@@ -12,15 +12,19 @@ const getFeed = async(userId: string, isHomeFeed: boolean): Promise<any> => {
   const messageAux = isHomeFeed ? "home" : "profile"; 
   log.info(`Getting ${messageAux} feed for user with id ${userId}`);
   let homeFeed: Post[] = [];
+<<<<<<< HEAD
   const lowerUserId = userId.toLowerCase();
   const followedUsers = await followsQueries.findFollows(lowerUserId);
 
+=======
+
+  const followedUsers = await followsQueries.findFollows(userId);  
+>>>>>>> 790b8b4676fe70241f89864e4476c6638f3ddedf
   const myPosts = await GetPostsForUser.getPostsForUser(userId);
   const mySharedPosts = await GetSharedPostsForUser.getSharedPostsForUser(userId);  
   
-  const followedUsersPosts = await getFollowedUsersPosts(followedUsers);
-  const followedUsersSharedPosts = await getFollowedUsersSharedPosts(followedUsers);
-
+  const followedUsersPosts = await getFollowedUsersPosts(followedUsers);  
+  const followedUsersSharedPosts = await getFollowedUsersSharedPosts(followedUsers);  
   homeFeed = homeFeed.concat(myPosts);
   homeFeed = homeFeed.concat(mySharedPosts);
   if (isHomeFeed) homeFeed = homeFeed.concat(followedUsersPosts);
@@ -40,7 +44,12 @@ const getFeed = async(userId: string, isHomeFeed: boolean): Promise<any> => {
       createdAt: homeFeed[i].getCreatedAt(),
     }
     homeFeedWithUserName.push(postObject);
-  }  
+  }
+  homeFeedWithUserName.sort(function(a, b) {
+    const date1 = new Date(a.createdAt);
+    const date2 = new Date(b.createdAt);
+    return date1.getTime()-date2.getTime();
+  });
   return homeFeedWithUserName;
 };
 

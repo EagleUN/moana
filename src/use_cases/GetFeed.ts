@@ -50,7 +50,7 @@ const getFeed = async(userId: string, isHomeFeed: boolean): Promise<any> => {
 const getFollowedUsersPosts = async (peopleFollowedByUser: Follows[]): Promise<Post[]> => {
   let followedUsersPosts: Post[] = [];
   const postsPromises = peopleFollowedByUser.map((follow) => {
-    return GetPostsForUser.getPostsForUser(follow.getFollowingId());
+    return GetPostsForUser.getPostsForUser(follow.getFollowingId() || "");
   });
 
   const results = await Promise.all(postsPromises);
@@ -68,7 +68,7 @@ const getFollowedUsersPosts = async (peopleFollowedByUser: Follows[]): Promise<P
 const getFollowedUsersSharedPosts = async (peopleFollowedByUser: Follows[]): Promise<Post[]> => {
   let followedUsersSharedPosts: Post[] = [];
   const sharedPostsPromises = peopleFollowedByUser.map((follow) => {
-    return GetSharedPostsForUser.getSharedPostsForUser(follow.getFollowingId());
+    return GetSharedPostsForUser.getSharedPostsForUser(follow.getFollowingId() || "");
   });
 
   const results = await Promise.all(sharedPostsPromises);

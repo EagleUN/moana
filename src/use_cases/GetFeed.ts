@@ -12,14 +12,9 @@ const getFeed = async(userId: string, isHomeFeed: boolean): Promise<any> => {
   const messageAux = isHomeFeed ? "home" : "profile"; 
   log.info(`Getting ${messageAux} feed for user with id ${userId}`);
   let homeFeed: Post[] = [];
-<<<<<<< HEAD
   const lowerUserId = userId.toLowerCase();
   const followedUsers = await followsQueries.findFollows(lowerUserId);
 
-=======
-
-  const followedUsers = await followsQueries.findFollows(userId);  
->>>>>>> 790b8b4676fe70241f89864e4476c6638f3ddedf
   const myPosts = await GetPostsForUser.getPostsForUser(userId);
   const mySharedPosts = await GetSharedPostsForUser.getSharedPostsForUser(userId);  
   

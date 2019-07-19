@@ -6,10 +6,10 @@ export class Follows {
   private id: string | undefined;
 
   @Column()
-  private follower_id: string;
+  private follower_id: string | undefined;
 
   @Column()
-  private following_id: string;
+  private following_id: string | undefined;
 
   public constructor(
     followerId: string,
@@ -23,11 +23,11 @@ export class Follows {
     return this.id;
   }
 
-  public getFollowerId(): string {
+  public getFollowerId(): string | undefined {
     return this.follower_id;
   }
 
-  public getFollowingId(): string {
+  public getFollowingId(): string | undefined {
     return this.following_id;
   }
 }

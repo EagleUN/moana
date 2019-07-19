@@ -14,13 +14,21 @@ const getFeed = async(userId: string, isHomeFeed: boolean): Promise<any> => {
   let homeFeed: Post[] = [];
 
   const followedUsers = await followsQueries.findFollows(userId);
-
+  console.log('following');
+  console.log(followedUsers);
   const myPosts = await GetPostsForUser.getPostsForUser(userId);
   const mySharedPosts = await GetSharedPostsForUser.getSharedPostsForUser(userId);  
   
   const followedUsersPosts = await getFollowedUsersPosts(followedUsers);
+  console.log('following posts');
+  followedUsersPosts.forEach((post) => {
+    console.log(post);
+  });
   const followedUsersSharedPosts = await getFollowedUsersSharedPosts(followedUsers);
-
+  console.log('following shared posts');
+  followedUsersSharedPosts.forEach((post) => {
+    console.log(post);
+  });
   homeFeed = homeFeed.concat(myPosts);
   homeFeed = homeFeed.concat(mySharedPosts);
   if (isHomeFeed) homeFeed = homeFeed.concat(followedUsersPosts);
@@ -40,7 +48,10 @@ const getFeed = async(userId: string, isHomeFeed: boolean): Promise<any> => {
       createdAt: homeFeed[i].getCreatedAt(),
     }
     homeFeedWithUserName.push(postObject);
-  }  
+  }
+  homeFeedWithUserName.sort(function(a, b) {
+    return a.createdAt.getTime()-b.createdAt.getTime();
+  });
   return homeFeedWithUserName;
 };
 

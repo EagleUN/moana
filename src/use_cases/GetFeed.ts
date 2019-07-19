@@ -12,8 +12,8 @@ const getFeed = async(userId: string, isHomeFeed: boolean): Promise<any> => {
   const messageAux = isHomeFeed ? "home" : "profile"; 
   log.info(`Getting ${messageAux} feed for user with id ${userId}`);
   let homeFeed: Post[] = [];
-
-  const followedUsers = await followsQueries.findFollows(userId);
+  const lowerUserId = userId.toLowerCase();
+  const followedUsers = await followsQueries.findFollows(lowerUserId);
 
   const myPosts = await GetPostsForUser.getPostsForUser(userId);
   const mySharedPosts = await GetSharedPostsForUser.getSharedPostsForUser(userId);  
@@ -47,7 +47,7 @@ const getFeed = async(userId: string, isHomeFeed: boolean): Promise<any> => {
 const getFollowedUsersPosts = async (peopleFollowedByUser: Follows[]): Promise<Post[]> => {
   let followedUsersPosts: Post[] = [];
   const postsPromises = peopleFollowedByUser.map((follow) => {
-    return GetPostsForUser.getPostsForUser(follow.getFollowingId());
+    return GetPostsForUser.getPostsForUser(follow.getFollowingId().toUpperCase());
   });
 
   const results = await Promise.all(postsPromises);
@@ -65,7 +65,7 @@ const getFollowedUsersPosts = async (peopleFollowedByUser: Follows[]): Promise<P
 const getFollowedUsersSharedPosts = async (peopleFollowedByUser: Follows[]): Promise<Post[]> => {
   let followedUsersSharedPosts: Post[] = [];
   const sharedPostsPromises = peopleFollowedByUser.map((follow) => {
-    return GetSharedPostsForUser.getSharedPostsForUser(follow.getFollowingId());
+    return GetSharedPostsForUser.getSharedPostsForUser(follow.getFollowingId().toUpperCase());
   });
 
   const results = await Promise.all(sharedPostsPromises);

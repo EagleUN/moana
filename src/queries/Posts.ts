@@ -1,7 +1,7 @@
 import { Post } from "../type_orm/entity/Post";
 import axios from "axios";
 
-const API_URL = 'http://walt:5000/graphql';
+const API_URL = 'http://eagleun-api:5000/graphql';
 
 const findPostsByCreatorId = async(idCreator: string): Promise<Post[]> => {
   let body =  { 
